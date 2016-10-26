@@ -1,1 +1,1 @@
-# plugin.program.blstfusion
+# plugin.program.bscfusiontv
