@@ -1,0 +1,866 @@
+{
+ "24_kitchen": {
+  "id": "24kitchen",
+  "offset": "0"
+ },
+ "24_techno": {
+  "id": "music",
+  "offset": "0"
+ },
+ "360tunebox": {
+  "id": "360TuneBoxHD",
+  "offset": "0"
+ },
+ "3sat_hd": {
+  "id": "3sat_hd",
+  "offset": "0"
+ },
+ "actionplus_hd": {
+  "id": "ActionPlus",
+  "offset": "0"
+ },
+ "agro_tv_hd": {
+  "id": "agroTV",
+  "offset": "0"
+ },
+ "al_jazeera": {
+  "id": "al_jazeera",
+  "offset": "0"
+ },
+ "alfa": {
+  "id": "Alfa",
+  "offset": "0"
+ },
+ "amareyo_hd": {
+  "id": "music",
+  "offset": "0"
+ },
+ "amc": {
+  "id": "amc",
+  "offset": "0"
+ },
+ "ams_hd": {
+  "id": "AutoMotorSport",
+  "offset": "0"
+ },
+ "ard_hd": {
+  "id": "ard_hd",
+  "offset": "0"
+ },
+ "arte_hd": {
+  "id": "arte_hd",
+  "offset": "0"
+ },
+ "arthouse": {
+  "id": "FilmboxArthouseHD",
+  "offset": "0"
+ },
+ "atv": {
+  "id": "atv",
+  "offset": "0"
+ },
+ "avto_moto_bg_hd": {
+  "id": "MotoSportHD",
+  "offset": "0"
+ },
+ "axn": {
+  "id": "AXN",
+  "offset": "0"
+ },
+ "axn_black": {
+  "id": "AXNBlack",
+  "offset": "0"
+ },
+ "axn_white": {
+  "id": "AXNWhite",
+  "offset": "0"
+ },
+ "babytv": {
+  "id": "BabyTV",
+  "offset": "0"
+ },
+ "balkanica_hd": {
+  "id": "Balkanika",
+  "offset": "0"
+ },
+ "bg_music_channel_hd": {
+  "id": "BGMusicChannel",
+  "offset": "0"
+ },
+ "bg_top_music": {
+  "id": "music",
+  "offset": "0"
+ },
+ "bgradio": {
+  "id": "bgradio",
+  "offset": "0"
+ },
+ "bit": {
+  "id": "BiT",
+  "offset": "0"
+ },
+ "bloomberg_tv": {
+  "id": "Bloomberg",
+  "offset": "0"
+ },
+ "bn_music": {
+  "id": "music",
+  "offset": "0"
+ },
+ "bnt1_hd": {
+  "id": "BNT1",
+  "offset": "0"
+ },
+ "bnt2": {
+  "id": "BNT2",
+  "offset": "0"
+ },
+ "bnt_hd": {
+  "id": "BNTHD",
+  "offset": "0"
+ },
+ "bntworld": {
+  "id": "BNTWorld",
+  "offset": "0"
+ },
+ "boomerang": {
+  "id": "Boomerang",
+  "offset": "0"
+ },
+ "box_tv_hd": {
+  "id": "BoxTV",
+  "offset": "0"
+ },
+ "boy_boy": {
+  "id": "porn",
+  "offset": "0"
+ },
+ "brazzers_tv": {
+  "id": "BrazzersTVEurope",
+  "offset": "0"
+ },
+ "btv": {
+  "id": "bTV",
+  "offset": "0"
+ },
+ "btv_action": {
+  "id": "bTVAction",
+  "offset": "0"
+ },
+ "btv_cinema": {
+  "id": "bTVCinema",
+  "offset": "0"
+ },
+ "btv_comedy": {
+  "id": "bTVComedy",
+  "offset": "0"
+ },
+ "btv_lady": {
+  "id": "bTVLady",
+  "offset": "0"
+ },
+ "bul_hist_hd": {
+  "id": "BulHistory",
+  "offset": "0"
+ },
+ "bulgaria24": {
+  "id": "news",
+  "offset": "0"
+ },
+ "bulgaria_on_air": {
+  "id": "BulgariaOnAir",
+  "offset": "0"
+ },
+ "cbs_drama": {
+  "id": "CBSReality",
+  "offset": "0"
+ },
+ "cbs_reality": {
+  "id": "CBSDrama",
+  "offset": "0"
+ },
+ "cherno_more": {
+  "id": "ChernoMore",
+  "offset": "0"
+ },
+ "cinemaplus_hd": {
+  "id": "CinemaPlus",
+  "offset": "0"
+ },
+ "city": {
+  "id": "city",
+  "offset": "0"
+ },
+ "city_tv": {
+  "id": "City",
+  "offset": "0"
+ },
+ "cn": {
+  "id": "CartoonNetwork",
+  "offset": "0"
+ },
+ "cnn": {
+  "id": "CNN",
+  "offset": "0"
+ },
+ "comedy_central": {
+  "id": "ComedyCentral",
+  "offset": "0"
+ },
+ "comedyplus_hd": {
+  "id": "ComedyPlus",
+  "offset": "0"
+ },
+ "cubayo_hd": {
+  "id": "music",
+  "offset": "0"
+ },
+ "da_vinci_learning": {
+  "id": "DaVinciLearning",
+  "offset": "0"
+ },
+ "darik": {
+  "id": "darik",
+  "offset": "0"
+ },
+ "deluxe_lounge_hd": {
+  "id": "DeluxeLoungeHD",
+  "offset": "0"
+ },
+ "deluxe_music_hd": {
+  "id": "DEDeluxeMusic",
+  "offset": "0"
+ },
+ "destination_bg_hd": {
+  "id": "DestinationBG",
+  "offset": "0"
+ },
+ "detski_mir": {
+  "id": "detski_mir",
+  "offset": "0"
+ },
+ "diema": {
+  "id": "Diema",
+  "offset": "0"
+ },
+ "diema_family": {
+  "id": "DiemaFamily",
+  "offset": "0"
+ },
+ "discovery": {
+  "id": "Discovery",
+  "offset": "0"
+ },
+ "discovery_hd": {
+  "id": "DiscoveryHDShowcase",
+  "offset": "0"
+ },
+ "discovery_science": {
+  "id": "DiscoveryScience",
+  "offset": "0"
+ },
+ "discovery_world": {
+  "id": "DiscoveryWorld",
+  "offset": "0"
+ },
+ "disney_channel": {
+  "id": "Disney",
+  "offset": "0"
+ },
+ "disney_junior": {
+  "id": "DisneyJunior",
+  "offset": "0"
+ },
+ "dm_sat": {
+  "id": "DMSat",
+  "offset": "0"
+ },
+ "docubox": {
+  "id": "DocuBox",
+  "offset": "0"
+ },
+ "dom_kino": {
+  "id": "dom_kino",
+  "offset": "0"
+ },
+ "dorcel_hd": {
+  "id": "porn",
+  "offset": "0"
+ },
+ "dstv": {
+  "id": "DSTV",
+  "offset": "0"
+ },
+ "duck_tv_sd": {
+  "id": "DuckTV",
+  "offset": "0"
+ },
+ "duga_tv": {
+  "id": "duga_tv",
+  "offset": "0"
+ },
+ "dusk": {
+  "id": "porn",
+  "offset": "0"
+ },
+ "dw": {
+  "id": "DeutscheWelle",
+  "offset": "0"
+ },
+ "ekids": {
+  "id": "EKids",
+  "offset": "0"
+ },
+ "erox": {
+  "id": "porn",
+  "offset": "0"
+ },
+ "eroxxxhd": {
+  "id": "porn",
+  "offset": "0"
+ },
+ "euro_d": {
+  "id": "euro_d",
+  "offset": "0"
+ },
+ "eurosport": {
+  "id": "Eurosport1",
+  "offset": "0"
+ },
+ "eurosport2": {
+  "id": "Eurosport2",
+  "offset": "0"
+ },
+ "evrokom": {
+  "id": "Eurocom",
+  "offset": "0"
+ },
+ "exotic": {
+  "id": "porn",
+  "offset": "0"
+ },
+ "fan_tv_hd": {
+  "id": "FENTV",
+  "offset": "0"
+ },
+ "fashion_one_hd": {
+  "id": "FashionOneHD",
+  "offset": "-2"
+ },
+ "fashion_tv": {
+  "id": "FashionTV",
+  "offset": "0"
+ },
+ "fashionbox": {
+  "id": "FashionBox",
+  "offset": "0"
+ },
+ "fastfunbox": {
+  "id": "FastnFunBoxHD",
+  "offset": "0"
+ },
+ "fen_folk_tv": {
+  "id": "FenFolk",
+  "offset": "0"
+ },
+ "fiesta_tv": {
+  "id": "Fiesta",
+  "offset": "0"
+ },
+ "fight_world_hd": {
+  "id": "fight_world_hd",
+  "offset": "0"
+ },
+ "fightbox": {
+  "id": "FightBox",
+  "offset": "0"
+ },
+ "filmbox_hd": {
+  "id": "FilmBoXtraHD",
+  "offset": "0"
+ },
+ "filmboxplus": {
+  "id": "FilmBoxPlusHD",
+  "offset": "0"
+ },
+ "filmplus": {
+  "id": "FPlus",
+  "offset": "0"
+ },
+ "filmplus_hd": {
+  "id": "FilmPlus",
+  "offset": "0"
+ },
+ "filmplushd": {
+  "id": "SportPlusHD",
+  "offset": "0"
+ },
+ "fine_living": {
+  "id": "FineLiving",
+  "offset": "0"
+ },
+ "fix_foxi": {
+  "id": "FixFoxy",
+  "offset": "0"
+ },
+ "fm_plus": {
+  "id": "fm_plus",
+  "offset": "0"
+ },
+ "folklor_tv_hd": {
+  "id": "FolklorTV",
+  "offset": "0"
+ },
+ "food_network_hd": {
+  "id": "FoodNetworkHD",
+  "offset": "0"
+ },
+ "fox": {
+  "id": "FOX",
+  "offset": "0"
+ },
+ "fox_crime": {
+  "id": "FOXCrime",
+  "offset": "0"
+ },
+ "fox_life": {
+  "id": "FOXLife",
+  "offset": "0"
+ },
+ "france_2": {
+  "id": "france_2",
+  "offset": "0"
+ },
+ "france_24": {
+  "id": "france_24",
+  "offset": "0"
+ },
+ "fresh": {
+  "id": "fresh",
+  "offset": "0"
+ },
+ "history_channel_hd": {
+  "id": "History",
+  "offset": "0"
+ },
+ "hobby_lov_hd": {
+  "id": "HobbyLovHD",
+  "offset": "0"
+ },
+ "hobby_tv_hd": {
+  "id": "HobbyTVHD",
+  "offset": "0"
+ },
+ "hobbytv": {
+  "id": "HobbyTV",
+  "offset": "0"
+ },
+ "horizont": {
+  "id": "horizont",
+  "offset": "0"
+ },
+ "hristobotev": {
+  "id": "hristobotev",
+  "offset": "0"
+ },
+ "hustler": {
+  "id": "HustlerTV",
+  "offset": "0"
+ },
+ "iconcert_hd": {
+  "id": "iConcerts",
+  "offset": "0"
+ },
+ "id_xtra": {
+  "id": "IDXtra",
+  "offset": "0"
+ },
+ "in_kitchen_hd": {
+  "id": "in_kitchen_hd",
+  "offset": "0"
+ },
+ "jim_jam": {
+  "id": "JimJam",
+  "offset": "0"
+ },
+ "jukebox_hd": {
+  "id": "DEJukeBox",
+  "offset": "0"
+ },
+ "kanal4": {
+  "id": "kanal4",
+  "offset": "0"
+ },
+ "kanal_3": {
+  "id": "Kanal3",
+  "offset": "0"
+ },
+ "karusel": {
+  "id": "karusel",
+  "offset": "0"
+ },
+ "kcn_music_2": {
+  "id": "music",
+  "offset": "0"
+ },
+ "kcn_music_3": {
+  "id": "music",
+  "offset": "0"
+ },
+ "kika_hd": {
+  "id": "kika_hd",
+  "offset": "0"
+ },
+ "kinonova": {
+  "id": "KinoNova",
+  "offset": "0"
+ },
+ "madscreen": {
+  "id": "madscreen",
+  "offset": "0"
+ },
+ "magic_fm": {
+  "id": "magic_fm",
+  "offset": "0"
+ },
+ "magic_tv": {
+  "id": "MagicTV",
+  "offset": "0"
+ },
+ "mezzo": {
+  "id": "Mezzo",
+  "offset": "0"
+ },
+ "mezzo_live_hd": {
+  "id": "mezzolivehd",
+  "offset": "0"
+ },
+ "mir_tv": {
+  "id": "mir_tv",
+  "offset": "0"
+ },
+ "mtv_hits": {
+  "id": "MTVHits",
+  "offset": "0"
+ },
+ "mtv_rock": {
+  "id": "MTVRocks",
+  "offset": "0"
+ },
+ "mtvlivehd": {
+  "id": "MTVLiveHD",
+  "offset": "0"
+ },
+ "music_box_ru": {
+  "id": "MusicBoxRU",
+  "offset": "0"
+ },
+ "musicbox_ukraina": {
+  "id": "MusicBoxUA",
+  "offset": "0"
+ },
+ "nashe_kino": {
+  "id": "nashe_kino",
+  "offset": "0"
+ },
+ "nat_geo_hd": {
+  "id": "NatGeo",
+  "offset": "0"
+ },
+ "nat_geo_wild": {
+  "id": "NatGeoWild",
+  "offset": "0"
+ },
+ "new7hd": {
+  "id": "News7",
+  "offset": "0"
+ },
+ "nick_jr": {
+  "id": "NickJr",
+  "offset": "0"
+ },
+ "nickelodeon": {
+  "id": "Nickelodeon",
+  "offset": "0"
+ },
+ "nickelodeon_hd": {
+  "id": "nickelodeon_hd",
+  "offset": "0"
+ },
+ "nova": {
+  "id": "nova",
+  "offset": "0"
+ },
+ "novasporthd": {
+  "id": "NovaSport",
+  "offset": "0"
+ },
+ "novatv": {
+  "id": "Nova",
+  "offset": "0"
+ },
+ "diemasporthd": {
+  "id": "DiemaSport",
+  "offset": "0"
+ },
+"diemasport2hd": {
+  "id": "DiemaSport2",
+  "offset": "0"
+ },
+ "nrj": {
+  "id": "nrj",
+  "offset": "0"
+ },
+ "ohota_riba": {
+  "id": "Ribalka",
+  "offset": "0"
+ },
+ "ot_blizo__hd": {
+  "id": "OtBlizoHD",
+  "offset": "0"
+ },
+ "outdor_hd": {
+  "id": "Outdoor",
+  "offset": "0"
+ },
+ "partys_hd": {
+  "id": "music",
+  "offset": "0"
+ },
+ "penthouse_1_hd": {
+  "id": "porn",
+  "offset": "0"
+ },
+ "perec": {
+  "id": "perec",
+  "offset": "0"
+ },
+ "perviy_kanal": {
+  "id": "PerviyKanal",
+  "offset": "0"
+ },
+ "pink_o_tv": {
+  "id": "porn",
+  "offset": "0"
+ },
+ "planeta_folk": {
+  "id": "PlanetaFolk",
+  "offset": "0"
+ },
+ "planetahd": {
+  "id": "PlanetaHD",
+  "offset": "0"
+ },
+ "planetatv": {
+  "id": "Planeta",
+  "offset": "0"
+ },
+ "platinum_tv": {
+  "id": "porn",
+  "offset": "0"
+ },
+ "po_tv_trakia": {
+  "id": "Trakiq",
+  "offset": "0"
+ },
+ "pro_7_hd": {
+  "id": "pro_7_hd",
+  "offset": "0"
+ },
+ "radio1": {
+  "id": "radio1",
+  "offset": "0"
+ },
+ "radio1rock": {
+  "id": "radio1rock",
+  "offset": "0"
+ },
+ "radio_family": {
+  "id": "radio_family",
+  "offset": "0"
+ },
+ "radio_varna": {
+  "id": "radio_varna",
+  "offset": "0"
+ },
+ "radiofocus": {
+  "id": "radiofocus",
+  "offset": "0"
+ },
+ "rai_uno": {
+  "id": "rai_uno",
+  "offset": "0"
+ },
+ "rbulgaria_on_air": {
+  "id": "rbulgaria_on_air",
+  "offset": "0"
+ },
+ "ringbg": {
+  "id": "RING",
+  "offset": "0"
+ },
+ "roma_tv": {
+  "id": "roma_tv",
+  "offset": "0"
+ },
+ "rthevoice": {
+  "id": "rthevoice",
+  "offset": "0"
+ },
+ "rtl_2_hd": {
+  "id": "rtl_2_hd",
+  "offset": "0"
+ },
+ "rtl_hd": {
+  "id": "rtl_hd",
+  "offset": "0"
+ },
+ "rtl_nitro_hd": {
+  "id": "rtl_nitro_hd",
+  "offset": "0"
+ },
+ "rtr_planeta": {
+  "id": "rtr_planeta",
+  "offset": "0"
+ },
+ "russia_24": {
+  "id": "russia_24",
+  "offset": "0"
+ },
+ "russia_today": {
+  "id": "RussiaToday",
+  "offset": "0"
+ },
+ "sat1": {
+  "id": "sat1",
+  "offset": "0"
+ },
+ "sct": {
+  "id": "porn",
+  "offset": "0"
+ },
+ "show_turk": {
+  "id": "show_turk",
+  "offset": "0"
+ },
+ "skat": {
+  "id": "Skat",
+  "offset": "0"
+ },
+ "sky_news": {
+  "id": "sky_news",
+  "offset": "0"
+ },
+ "sportaltv": {
+  "id": "sportaltv",
+  "offset": "0"
+ },
+ "super_7": {
+  "id": "Super7",
+  "offset": "0"
+ },
+ "super_rtl_hd": {
+  "id": "super_rtl_hd",
+  "offset": "0"
+ },
+ "superone": {
+  "id": "porn",
+  "offset": "0"
+ },
+ "tangramegarock": {
+  "id": "tangramegarock",
+  "offset": "0"
+ },
+ "tgirlstv": {
+  "id": "porn",
+  "offset": "0"
+ },
+ "the_voice": {
+  "id": "TheVoice",
+  "offset": "0"
+ },
+ "tiankov_folk_hd": {
+  "id": "TiankovFolk",
+  "offset": "0"
+ },
+ "tiankov_music_hd": {
+  "id": "music",
+  "offset": "0"
+ },
+ "tlc": {
+  "id": "TLC",
+  "offset": "0"
+ },
+ "travel_channel": {
+  "id": "TravelChannel",
+  "offset": "0"
+ },
+ "travel_tv_hd": {
+  "id": "TravelHD",
+  "offset": "0"
+ },
+ "tv1000": {
+  "id": "TV1000",
+  "offset": "0"
+ },
+ "tv1_hd": {
+  "id": "TV1",
+  "offset": "0"
+ },
+ "tv5": {
+  "id": "tv5",
+  "offset": "0"
+ },
+ "tv7": {
+  "id": "TV7",
+  "offset": "0"
+ },
+ "tv_stara_zagora": {
+  "id": "tvstz",
+  "offset": "0"
+ },
+ "tvevropa": {
+  "id": "tveurope",
+  "offset": "0"
+ },
+ "tvplus": {
+  "id": "TVPlus",
+  "offset": "0"
+ },
+ "veronika": {
+  "id": "veronika",
+  "offset": "0"
+ },
+ "vh1": {
+  "id": "VH1",
+  "offset": "0"
+ },
+ "vh1_classic": {
+  "id": "VH1Classic",
+  "offset": "0"
+ },
+ "viasat_explorer": {
+  "id": "ViasatExplorer",
+  "offset": "0"
+ },
+ "viasat_history": {
+  "id": "ViasatHistory",
+  "offset": "0"
+ },
+ "viasat_nature": {
+  "id": "ViasatNature",
+  "offset": "0"
+ },
+ "vitosha": {
+  "id": "vitosha",
+  "offset": "0"
+ },
+ "vox_hd": {
+  "id": "vox_hd",
+  "offset": "0"
+ },
+ "zdf_hd": {
+  "id": "zdf_hd",
+  "offset": "0"
+ }
+}

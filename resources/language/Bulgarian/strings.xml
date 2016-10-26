@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<strings>
+    <string id="30300">Основни</string>
+    <string id="30301">Потребител</string>
+    <string id="30302">Парола</string>
+    <string id="30303">Обновяване</string>
+    <string id="30304">Timeout</string>
+    <string id="30306">Време на изпълнение</string>
+    <string id="30400">Допълнителни</string>
+    <string id="30401">Показвай канали за възрастни</string>
+    <string id="30402">Клиентски идентификатор</string>
+    <string id="30404">Включи дебъг</string>
+    <string id="30405">Копирай плейлистата в друга директория</string>
+    <string id="30406">Път до директория</string>
+    <string id="30407">Група канали от справочник</string>
+    <string id="30408">Custom commands enable</string>
+    <string id="30409">Builtin</string>
+    <string id="30410">Script</string>
+    <string id="30500">ПВР</string>
+    <string id="30501">Рестартирай ПВР клиент</string>
+    <string id="30502">Рестартирай ПВР клиент след ъпдейт</string>
+    <string id="30503">Използвай външно ЕПГ</string>
+</strings>
