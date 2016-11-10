@@ -59,6 +59,12 @@ def update(name, dat, crash=None):
   payload['dl'] = urllib.quote_plus(dat.encode('utf-8'))
   ga('UA-79422131-11').update(payload, crash)
 
+
+def dbg_msg(msg):
+  if dbg:
+    print'### %s: %s' % (__scriptid__, msg)
+    
+    
 __ua_os = {
   '0' : {'ua' : 'pcweb', 'osid' : 'pcweb'},
   '1' : {'ua' : 'samsunghas-agent/1.1', 'osid' : 'samsungtv'},
@@ -111,9 +117,6 @@ if not __addon__.getSetting('username'):
 if not __addon__.getSetting('password'):
   Notify('Password', 'empty')
 
-def dbg_msg(msg):
-  if dbg:
-    print'### %s: %s' % (__scriptid__, msg)
 
 import traceback
 try:
