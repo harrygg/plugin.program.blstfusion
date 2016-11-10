@@ -280,7 +280,7 @@ class dodat():
       pl = u'#EXTM3U\n'
       if self.__gen_jd:
         jdump = {}
-      dat = [x for x in self.__tv_list if (x['pg'] == 'free' or self.__x)]
+      dat = [x for x in self.__tv_list]
       for i, ch in enumerate(dat):
         if self.__cb:
           self.__cb(
