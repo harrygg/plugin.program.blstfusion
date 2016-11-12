@@ -71,7 +71,7 @@ __ua_os = {
   '1' : {'ua' : 'Mozilla/5.0 (SMART-TV; Linux; Tizen 2.3) AppleWebkit/538.1 (KHTML, like Gecko) SamsungBrowser/1.0 TV Safari/538.1', 'osid' : 'samsungtv'},
   '2' : {'ua' : 'HLS Client/2.0 (compatible; LG NetCast.TV-2012)', 'osid' : 'lgtv'},
   '3' : {'ua' : 'Mozilla/5.0 (FreeBSD; Viera; rv:34.0) Gecko/20100101 Firefox/34.0', 'osid' : 'panasonictv'},
-  '4' : {'ua' : 'stagefright', 'osid' : 'androidtv'},
+  '4' : {'ua' : 'Bulsatcom for android', 'osid' : 'androidtv'},
 }
 
 if os.path.exists(os.path.join(__data__, '', 'data.dat')):
