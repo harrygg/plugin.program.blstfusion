@@ -1,6 +1,6 @@
 # -*- coding: utf8 -*-
 
-import os, time
+import os, time, xbmc
 import base64
 import requests
 import aes as EN
@@ -72,6 +72,7 @@ class dodat():
     self.__gen_jd = False
 
     self.__s = requests.Session()
+    #self.__s.verify=False
 
     if agent_id != 'pcweb':
       self.__URL_LOGIN = base + '/?auth'
@@ -231,6 +232,8 @@ class dodat():
           self.__log_out()
           if r.status_code != requests.codes.ok:
             self.__log_dat('Error status code: %d' % (r.status_code, ))
+            xbmc.log('Error status code: %d' % (r.status_code, ))
+            
             raise Exception("FetchFail")
 
         else:
@@ -280,7 +283,14 @@ class dodat():
       pl = u'#EXTM3U\n'
       if self.__gen_jd:
         jdump = {}
-      dat = [x for x in self.__tv_list]
+        
+      
+      xbmc.log("Include XXX: %s" % self.__x)
+      dat = []
+      for x in self.__tv_list:
+        #xbmc.log("x[genre]=%s" % x["genre"].encode('utf-8'))
+        if "18" not in x["genre"] or self.__x:
+          dat.append(x)
       for i, ch in enumerate(dat):
         if self.__cb:
           self.__cb(
