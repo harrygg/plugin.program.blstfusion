@@ -36,7 +36,7 @@ class dodat():
                 'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                 'Accept-Language': 'en-US,en;q=0.5',
                 'Accept-Encoding': 'gzip, deflate',
-                'Referer': 'https://test.iptv.bulsat.com/iptv.php',
+                'Referer': 'https://test.iptv.bulsat.com/iptv-login.php',
                 'Origin': 'https://test.iptv.bulsat.com',
                 'Connection': 'keep-alive',
                 'Pragma': 'no-cache',
@@ -59,7 +59,8 @@ class dodat():
     self.__DEBUG_EN = dbg
     self.__t = timeout
     self.__BLOCK_SIZE = 16
-    self.__URL_LIST = base + '/tv/pcweb/live'
+    xbmc.log("__URL_LIST" + base + '/tv/%s/live' % os_id)
+    self.__URL_LIST = base + '/tv/%s/live' % os_id
     self.__URL_EPG  = base + '/epg/short'
     self.__js = None
     self.__app_version = ver
@@ -321,12 +322,12 @@ class dodat():
           jdump[ch['epg_name']]=ch['epg_name']
 
         if self.__gen_epg:
-          w.addChannel(
-                      {'display-name': [(ch['title'], u'bg')],
-                      'icon': [{'src': ch['logo_selected']}],
-                      'id': ch['epg_name'],
-                      'url': ['https://test.iptv.bulsat.com']}
-                      )
+          c = {'display-name': [(ch['title'], u'bg')],
+          'id': ch['epg_name'],
+          'url': ['https://test.iptv.bulsat.com']}
+          
+          w.addChannel(c)
+          
           if ch.has_key('program'):
             for p in ch['program']:
               w.addProgramme(
@@ -335,10 +336,7 @@ class dodat():
                             'title': [(p['title'], u'')],
                             'desc': [(p['desc'], u'')],
                             'category': [(ch['genre'], u'')],
-                            'channel': ch['epg_name'],
-                            'video': {'quality': ch['quality']},
-                            'rating': [{'value': ch['pg']}]}
-                          )
+                            'channel': ch['epg_name']})
 
       if self.__gen_m3u:
         f_m3u =  open(os.path.join(self.__path, '', 'bulsat.m3u'), 'wb+')
