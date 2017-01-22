@@ -74,6 +74,7 @@ class dodat():
     self.__gen_jd = False
     self.__map_file = map_file
 
+    xbmc.log("Module request version %s" % requests.__version__)
     self.__s = requests.Session()
     #self.__s.verify=False
 
@@ -167,10 +168,6 @@ class dodat():
 
       self.__log_dat(r.request.headers)
       self.__log_dat(r.request.body)
-      xbmc.log("Request headers:")
-      xbmc.log(str(r.request.headers))
-      xbmc.log("Request body:")
-      xbmc.log(str(r.request.body))
 
       if r.status_code == requests.codes.ok:
         data = r.json()
@@ -199,23 +196,12 @@ class dodat():
           self.__log_dat(r.request.headers)
           self.__log_dat(r.headers)
           
-          xbmc.log("Request headers:")
-          xbmc.log(str(r.request.headers))
-          xbmc.log("Request body:")
-          xbmc.log(str(r.status_code))      
-          xbmc.log(str(r.request.body) ) 
-          
           if r.status_code == requests.codes.ok:
             self.__char_set = r.headers['content-type'].split('charset=')[1]
             self.__log_dat('get data ok')
             self.__tv_list = r.json()
             self.__js = {}
             self.__log_dat(self.__js)
-
-            xbmc.log("Request headers:")
-            xbmc.log(str(r.headers))
-            xbmc.log("Request body:")
-            xbmc.log(str(r.status_code))
           
             if self.__cb:
               self.__cb({'pr': 90, 'str': 'Fetch data done'})
