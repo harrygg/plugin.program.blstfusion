@@ -26,7 +26,8 @@ class dodat():
                 gen_m3u = True,
                 gen_epg = False,
                 compress = True,
-                proc_cb = None):
+                proc_cb = None,
+                map_file = None):
 
     app_ver = '0.01'
     base = base64.b64decode('aHR0cHM6Ly9hcGkuaXB0di5idWxzYXQuY29t')
@@ -59,7 +60,7 @@ class dodat():
     self.__DEBUG_EN = dbg
     self.__t = timeout
     self.__BLOCK_SIZE = 16
-    xbmc.log("__URL_LIST" + base + '/tv/%s/live' % os_id)
+    xbmc.log("__URL_LIST: " + base + '/tv/%s/live' % os_id)
     self.__URL_LIST = base + '/tv/%s/live' % os_id
     self.__URL_EPG  = base + '/epg/short'
     self.__js = None
@@ -71,6 +72,7 @@ class dodat():
     self.__compress = compress
     self.__cb = proc_cb
     self.__gen_jd = False
+    self.__map_file = map_file
 
     self.__s = requests.Session()
     #self.__s.verify=False
@@ -165,6 +167,10 @@ class dodat():
 
       self.__log_dat(r.request.headers)
       self.__log_dat(r.request.body)
+      xbmc.log("Request headers:")
+      xbmc.log(str(r.request.headers))
+      xbmc.log("Request body:")
+      xbmc.log(str(r.request.body))
 
       if r.status_code == requests.codes.ok:
         data = r.json()
@@ -182,7 +188,7 @@ class dodat():
 
           self.__log_dat(r.request.headers)
           self.__log_dat(r.headers)
-          self.__log_dat(str(r.status_code))
+          self.__log_dat(str(r.status_code))    
 
           if self.__cb:
             self.__cb({'pr': 70, 'str': 'Fetch data'})
@@ -192,7 +198,13 @@ class dodat():
 
           self.__log_dat(r.request.headers)
           self.__log_dat(r.headers)
-
+          
+          xbmc.log("Request headers:")
+          xbmc.log(str(r.request.headers))
+          xbmc.log("Request body:")
+          xbmc.log(str(r.status_code))      
+          xbmc.log(str(r.request.body) ) 
+          
           if r.status_code == requests.codes.ok:
             self.__char_set = r.headers['content-type'].split('charset=')[1]
             self.__log_dat('get data ok')
@@ -200,6 +212,11 @@ class dodat():
             self.__js = {}
             self.__log_dat(self.__js)
 
+            xbmc.log("Request headers:")
+            xbmc.log(str(r.headers))
+            xbmc.log("Request body:")
+            xbmc.log(str(r.status_code))
+          
             if self.__cb:
               self.__cb({'pr': 90, 'str': 'Fetch data done'})
 
@@ -275,24 +292,26 @@ class dodat():
                           generator_info_url="")
       else:
         try:
-          with open('map.json') as f:
+          with open(self.__map_file) as f:
             map = json.load(f)
             self.__log_dat(map)
         except:
-          pass
+          xbmc.log("Unable to load map.json file")
 
       pl = u'#EXTM3U\n'
       if self.__gen_jd:
         jdump = {}
-        
       
       xbmc.log("Include XXX: %s" % self.__x)
+      #dat = [x for x in self.__tv_list if (x['pg'] == 'free' or self.__x)]
       dat = []
       for x in self.__tv_list:
         #xbmc.log("x[genre]=%s" % x["genre"].encode('utf-8'))
         if "18" not in x["genre"] or self.__x:
           dat.append(x)
+      
       for i, ch in enumerate(dat):
+        #xbmc.log(ch['epg_name'].encode('utf-8'))
         if self.__cb:
           self.__cb(
                       {
@@ -314,6 +333,7 @@ class dodat():
           else:
             e_map = map.get(ch['epg_name'], {ch['epg_name']:{'id': ch['epg_name'], 'offset': '0', 'ch_logo': ch['epg_name']}})
             gid = e_map.get('id', ch['epg_name'])
+            #xbmc.log(gid.encode('utf-8'))
             offset = e_map.get('offset', '0')
             logo = e_map.get('ch_logo', ch['epg_name'])
             pl = pl + '#EXTINF:-1 radio="%s" tvg-shift=%s group-title="%s" tvg-logo="%s" tvg-id="%s",%s\n%s|User-Agent=%s\n' % (ch['radio'], offset, ch_group_name, logo, gid, ch['title'], ch['sources'], urllib.quote_plus(self.__UA['User-Agent']))

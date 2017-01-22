@@ -11,6 +11,14 @@ import simplejson as json
 import urllib
 from ga import ga
 
+#append_pydev_remote_debugger
+__DEBUG__ = False
+if __DEBUG__:
+  sys.path.append(os.environ['PYSRC'])
+  import pydevd
+  pydevd.settrace('localhost', stdoutToServer=False, stderrToServer=False)
+#end_append_pydev_remote_debugger    
+
 __addon__ = xbmcaddon.Addon()
 __author__ = __addon__.getAddonInfo('author')
 __scriptid__ = __addon__.getAddonInfo('id')
@@ -22,6 +30,7 @@ __cwd__ = xbmc.translatePath( __addon__.getAddonInfo('path') ).decode('utf-8')
 __profile__ = xbmc.translatePath( __addon__.getAddonInfo('profile') ).decode('utf-8')
 __resource__ = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'lib' ) ).decode('utf-8')
 __icon_msg__ = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'bulsat.png' ) ).decode('utf-8')
+__map__ = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'map.json' ) ).decode('utf-8')
 __data__ = xbmc.translatePath(os.path.join( __profile__, '', 'dat') ).decode('utf-8')
 __r_path__ = xbmc.translatePath(__addon__.getSetting('w_path')).decode('utf-8')
 sys.path.insert(0, __resource__)
@@ -137,7 +146,8 @@ try:
                 gen_m3u = True,
                 gen_epg = not etx_epg,
                 compress = True,
-                proc_cb = progress_cb)
+                proc_cb = progress_cb,
+                map_file = __map__)
 
   if check_plg():
     force = True
