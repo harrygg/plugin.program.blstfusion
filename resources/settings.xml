@@ -21,8 +21,9 @@
       <setting label="30410" type="text"   id="builtin_cmd" default="" visible="eq(-2,true)"/>
     </category>
     <category label="30500">
-      <setting label="30501" id="restart_pvr"  type="action" action="XBMC.StartPVRManager"/>
+      <setting label="30501" type="action" id="restart_pvr" action="XBMC.StartPVRManager"/>
       <setting label="30502" type="bool"   id="en_reload_pvr" default="true"/>
       <setting label="30503" type="bool"   id="ext_epg" default="true"/>
+      <setting label="Използвай ЕПГ от:"   id="epg_type"  default="0" values="Bulsat|Еxternal" type="enum" />
     </category>
 </settings>

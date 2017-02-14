@@ -24,7 +24,7 @@ class dodat():
                 agent_id = 'pcweb',
                 force_group_name = False,
                 gen_m3u = True,
-                gen_epg = False,
+                epg_type = '0',
                 compress = True,
                 proc_cb = None,
                 map_file = None):
@@ -45,13 +45,13 @@ class dodat():
 
     self.__log_in = {}
     self.__p_data = {
-                'user' : ['',''],
-                'device_id' : ['', os_id],
-                'device_name' : ['', os_id],
-                'os_version' : ['', os_id],
-                'os_type' : ['', os_id],
-                'app_version' : ['', app_ver],
-                'pass' : ['',''],
+                'user' : [None,''],
+                'device_id' : [None, os_id],
+                'device_name' : [None, os_id],
+                'os_version' : [None, os_id],
+                'os_type' : [None, os_id],
+                'app_version' : [None, app_ver],
+                'pass' : [None,''],
                 }
     self.__path = path
     self.__refresh = int(cachetime * 60 * 60)
@@ -68,13 +68,13 @@ class dodat():
     self.__x = xxx
     self.__en_group_ch = force_group_name
     self.__gen_m3u = gen_m3u
-    self.__gen_epg = gen_epg
+    self.__epg_type = epg_type
     self.__compress = compress
     self.__cb = proc_cb
     self.__gen_jd = False
     self.__map_file = map_file
 
-    xbmc.log("Module request version %s" % requests.__version__)
+    #xbmc.log("Module request version %s" % requests.__version__)
     self.__s = requests.Session()
     #self.__s.verify=False
 
@@ -125,7 +125,7 @@ class dodat():
 
   def __log_out(self):
     r = self.__s.post(self.__URL_LOGIN, timeout=self.__t,
-          headers=self.__UA, files={'logout': ['','1']})
+          headers=self.__UA, files={'logout': [None,'1']})
 
     self.__log_dat(r.request.headers)
     self.__log_dat(r.request.body)
@@ -206,7 +206,7 @@ class dodat():
             if self.__cb:
               self.__cb({'pr': 90, 'str': 'Fetch data done'})
 
-            if self.__gen_epg:
+            if self.__epg_type == '0':
               for i, ch in enumerate(self.__tv_list):
                 if self.__cb:
                   self.__cb(
@@ -269,14 +269,15 @@ class dodat():
     if self.__tv_list:
       ret = True
       map = None
-      if self.__gen_epg:
+      if self.__epg_type == '0': #BULSAT EPG
+        xbmc.log("Enabled EPG")
         w = xmltv.Writer(encoding=self.__char_set.upper(),
                           date=str(time.time()),
                           source_info_url="",
                           source_info_name="",
                           generator_info_name="",
                           generator_info_url="")
-      else:
+      elif self.__epg_type == '1': # EXTERNAL EPGs
         try:
           with open(self.__map_file) as f:
             map = json.load(f)
@@ -327,7 +328,7 @@ class dodat():
         if self.__gen_jd:
           jdump[ch['epg_name']]=ch['epg_name']
 
-        if self.__gen_epg:
+        if self.__epg_type == '0':
           c = {'display-name': [(ch['title'], u'bg')],
           'id': ch['epg_name'],
           'url': ['https://test.iptv.bulsat.com']}
@@ -355,7 +356,7 @@ class dodat():
                             indent = 1,
                             ensure_ascii=False)))
 
-      if self.__gen_epg:
+      if self.__epg_type == '0':
         if self.__compress:
           out = StringIO.StringIO()
           w.write(out, pretty_print=True)

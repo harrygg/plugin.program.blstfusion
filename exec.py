@@ -30,7 +30,13 @@ __cwd__ = xbmc.translatePath( __addon__.getAddonInfo('path') ).decode('utf-8')
 __profile__ = xbmc.translatePath( __addon__.getAddonInfo('profile') ).decode('utf-8')
 __resource__ = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'lib' ) ).decode('utf-8')
 __icon_msg__ = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'bulsat.png' ) ).decode('utf-8')
-__map__ = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'map.json' ) ).decode('utf-8')
+
+epg_type = __addon__.getSetting('epg_type')
+if epg_type == '1':
+  __map__ = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'megamap.json' ) ).decode('utf-8')
+else:
+  __map__ = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'map.json' ) ).decode('utf-8')
+
 __data__ = xbmc.translatePath(os.path.join( __profile__, '', 'dat') ).decode('utf-8')
 __r_path__ = xbmc.translatePath(__addon__.getSetting('w_path')).decode('utf-8')
 sys.path.insert(0, __resource__)
@@ -82,6 +88,7 @@ __ua_os = {
   '3' : {'ua' : 'Mozilla/5.0 (FreeBSD; Viera; rv:34.0) Gecko/20100101 Firefox/34.0', 'osid' : 'panasonictv'},
   '4' : {'ua' : 'Bulsatcom for android', 'osid' : 'androidtv'},
 }
+
 
 if os.path.exists(os.path.join(__data__, '', 'data.dat')):
   with open(os.path.join(__data__, '', 'data.dat'), 'r') as f:
@@ -144,7 +151,7 @@ try:
                 agent_id = __ua_os[__addon__.getSetting('dev_id')]['ua'],
                 force_group_name = _group_name,
                 gen_m3u = True,
-                gen_epg = not etx_epg,
+                epg_type = epg_type,
                 compress = True,
                 proc_cb = progress_cb,
                 map_file = __map__)
