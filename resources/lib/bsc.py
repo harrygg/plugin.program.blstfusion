@@ -283,8 +283,8 @@ class dodat():
             map = json.load(f)
             self.__log_dat(map)
         except:
-          xbmc.log("Unable to load map.json file")
-
+          xbmc.log("Unable to load file: " + self.__map_file)
+          
       pl = u'#EXTM3U\n'
       if self.__gen_jd:
         jdump = {}

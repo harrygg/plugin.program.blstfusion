@@ -11,14 +11,6 @@ import simplejson as json
 import urllib
 from ga import ga
 
-#append_pydev_remote_debugger
-__DEBUG__ = False
-if __DEBUG__:
-  sys.path.append(os.environ['PYSRC'])
-  import pydevd
-  pydevd.settrace('localhost', stdoutToServer=False, stderrToServer=False)
-#end_append_pydev_remote_debugger    
-
 __addon__ = xbmcaddon.Addon()
 __author__ = __addon__.getAddonInfo('author')
 __scriptid__ = __addon__.getAddonInfo('id')
@@ -30,19 +22,19 @@ __cwd__ = xbmc.translatePath( __addon__.getAddonInfo('path') ).decode('utf-8')
 __profile__ = xbmc.translatePath( __addon__.getAddonInfo('profile') ).decode('utf-8')
 __resource__ = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'lib' ) ).decode('utf-8')
 __icon_msg__ = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'bulsat.png' ) ).decode('utf-8')
+reload_pvr_if_playing = __addon__.getSetting('reload_pvr_if_playing') == 'true'
 
 epg_type = __addon__.getSetting('epg_type')
 if epg_type == '1':
-  __map__ = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'megamap.json' ) ).decode('utf-8')
-else:
   __map__ = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'map.json' ) ).decode('utf-8')
+else:
+  __map__ = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'megamap.json' ) ).decode('utf-8')
 
 __data__ = xbmc.translatePath(os.path.join( __profile__, '', 'dat') ).decode('utf-8')
 __r_path__ = xbmc.translatePath(__addon__.getSetting('w_path')).decode('utf-8')
 sys.path.insert(0, __resource__)
 
-dp = xbmcgui.DialogProgressBG()
-dp.create(heading = __scriptname__)
+
 
 def progress_cb (a):
   _str = __scriptname__
@@ -78,7 +70,20 @@ def update(name, dat, crash=None):
 def dbg_msg(msg):
   if dbg:
     print'### %s: %s' % (__scriptid__, msg)
-    
+
+def is_player_active():
+  try:
+    res = xbmc.executeJSONRPC('{"jsonrpc":"2.0","method":"Player.GetActivePlayers", "id":1}')
+    player_id = json.loads(res)["result"][0]["playerid"]
+    res = xbmc.executeJSONRPC('{"jsonrpc":"2.0","method":"Player.GetItem","params":{"properties":["channeltype","channelnumber"],"playerid":%s},"id":"id1"}' % player_id)
+    item_type = json.loads(res)["result"]["item"]["type"]
+    if item_type == "channel":
+      xbmc.log("PVR is playing!")
+      return True
+  except:
+    pass
+  xbmc.log("PVR is not playing!")
+  return False    
     
 __ua_os = {
   '0' : {'ua' : 'pcweb', 'osid' : 'pcweb'},
@@ -90,113 +95,120 @@ __ua_os = {
 }
 
 
-if os.path.exists(os.path.join(__data__, '', 'data.dat')):
-  with open(os.path.join(__data__, '', 'data.dat'), 'r') as f:
-    js = json.load(f)
-  if not (js.has_key('app_version') and js['app_version'] == __version__):
-    u = __addon__.getSetting('username')
-    p = __addon__.getSetting('password')
-
-    for root, dirs, files in os.walk(__data__, topdown=False):
-      for name in files:
-        os.remove(os.path.join(root, name))
-      for name in dirs:
-        os.rmdir(os.path.join(root, name))
-    __addon__.setSetting('firstrun', 'true')
-
-if __addon__.getSetting('firstrun') == 'true':
-  Notify('Settings', 'empty')
-  __addon__.openSettings()
-  __addon__.setSetting('firstrun', 'false')
-
-if __addon__.getSetting('dbg') == 'true':
-  dbg = True
+#########################################################################
+### Run addon only if PVR is not active or reload_pvr_if_playing is True
+#########################################################################
+if is_player_active() and reload_pvr_if_playing == False:
+  xbmc.log("PVR is in use. Delaying playlist regeneration with 5 minutes")
+  xbmc.executebuiltin('AlarmClock(%s, RunScript(%s, False), %s, silent)' % (__scriptid__, __scriptid__, 1))
 else:
-  dbg = False
+  dp = xbmcgui.DialogProgressBG()
+  dp.create(heading = __scriptname__)
 
-if __addon__.getSetting('xxx') == 'true':
-  xxx = True
-else:
-  xxx = False
+  if os.path.exists(os.path.join(__data__, '', 'data.dat')):
+    with open(os.path.join(__data__, '', 'data.dat'), 'r') as f:
+      js = json.load(f)
+    if not (js.has_key('app_version') and js['app_version'] == __version__):
+      u = __addon__.getSetting('username')
+      p = __addon__.getSetting('password')
 
-if __addon__.getSetting('en_group_ch') == 'true':
-  _group_name = False
-else:
-  _group_name = __scriptid__
+      for root, dirs, files in os.walk(__data__, topdown=False):
+        for name in files:
+          os.remove(os.path.join(root, name))
+        for name in dirs:
+          os.rmdir(os.path.join(root, name))
+      __addon__.setSetting('firstrun', 'true')
 
-if __addon__.getSetting('ext_epg') == 'true':
-  etx_epg = True
-else:
-  etx_epg = False
+  if __addon__.getSetting('firstrun') == 'true':
+    Notify('Settings', 'empty')
+    __addon__.openSettings()
+    __addon__.setSetting('firstrun', 'false')
 
-if not __addon__.getSetting('username'):
-  Notify('User', 'empty')
-if not __addon__.getSetting('password'):
-  Notify('Password', 'empty')
+  if __addon__.getSetting('dbg') == 'true':
+    dbg = True
+  else:
+    dbg = False
+
+  if __addon__.getSetting('xxx') == 'true':
+    xxx = True
+  else:
+    xxx = False
+
+  if __addon__.getSetting('en_group_ch') == 'true':
+    _group_name = False
+  else:
+    _group_name = __scriptid__
+
+  if __addon__.getSetting('ext_epg') == 'true':
+    etx_epg = True
+  else:
+    etx_epg = False
+
+  if not __addon__.getSetting('username'):
+    Notify('User', 'empty')
+  if not __addon__.getSetting('password'):
+    Notify('Password', 'empty')
 
 
-import traceback
-try:
-  import bsc
-  b = bsc.dodat(login = {'usr': __addon__.getSetting('username'),
-                        'pass': __addon__.getSetting('password')
-                        },
-                path = __data__,
-                cachetime = float(__addon__.getSetting('refresh')),
-                dbg = dbg,
-                timeout=float(__addon__.getSetting('timeout')),
-                ver = __version__,
-                xxx = xxx,
-                os_id = __ua_os[__addon__.getSetting('dev_id')]['osid'],
-                agent_id = __ua_os[__addon__.getSetting('dev_id')]['ua'],
-                force_group_name = _group_name,
-                gen_m3u = True,
-                epg_type = epg_type,
-                compress = True,
-                proc_cb = progress_cb,
-                map_file = __map__)
+  import traceback
+  try:
+    import bsc
+    b = bsc.dodat(login = {'usr': __addon__.getSetting('username'), 'pass': __addon__.getSetting('password')},
+                  path = __data__,
+                  cachetime = float(__addon__.getSetting('refresh')),
+                  dbg = dbg,
+                  timeout=float(__addon__.getSetting('timeout')),
+                  ver = __version__,
+                  xxx = xxx,
+                  os_id = __ua_os[__addon__.getSetting('dev_id')]['osid'],
+                  agent_id = __ua_os[__addon__.getSetting('dev_id')]['ua'],
+                  force_group_name = _group_name,
+                  gen_m3u = True,
+                  epg_type = epg_type,
+                  compress = True,
+                  proc_cb = progress_cb,
+                  map_file = __map__)
 
-  if check_plg():
-    force = True
-    if len(sys.argv) > 1 and sys.argv[1] == 'False':
-      force = False
-      dbg_msg('Reload timer')
-      update('reload_timer',  __addon__.getSetting('check_interval'))
-      xbmc.executebuiltin('AlarmClock (%s, RunScript(%s, False), %s, silent)' % (__scriptid__,__scriptid__, __addon__.getSetting('check_interval')))
+    if check_plg():
+      force = True
+      if len(sys.argv) > 1 and sys.argv[1] == 'False':
+        force = False
+        dbg_msg('Reload timer')
+        update('reload_timer',  __addon__.getSetting('check_interval'))
+        xbmc.executebuiltin('AlarmClock (%s, RunScript(%s, False), %s, silent)' % (__scriptid__,__scriptid__, __addon__.getSetting('check_interval')))
 
-    if b.gen_all(force):
-      if __addon__.getSetting('en_cp') == 'true' and __addon__.getSetting('w_path') != '' and xbmcvfs.exists(__r_path__):
-        if os.path.isfile(os.path.join(__data__, '', 'bulsat.xml.gz')):
-          xbmcvfs.copy(os.path.join(__data__, '', 'bulsat.xml.gz'), os.path.join(__r_path__, '', 'bulsat.xml.gz'))
-        if os.path.isfile(os.path.join(__data__, '', 'bulsat.m3u')):
-          xbmcvfs.copy(os.path.join(__data__, '', 'bulsat.m3u'), os.path.join(__r_path__, '', 'bulsat.m3u'))
-        dbg_msg('Copy Files')
+      if b.gen_all(force):
+        if __addon__.getSetting('en_cp') == 'true' and __addon__.getSetting('w_path') != '' and xbmcvfs.exists(__r_path__):
+          if os.path.isfile(os.path.join(__data__, '', 'bulsat.xml.gz')):
+            xbmcvfs.copy(os.path.join(__data__, '', 'bulsat.xml.gz'), os.path.join(__r_path__, '', 'bulsat.xml.gz'))
+          if os.path.isfile(os.path.join(__data__, '', 'bulsat.m3u')):
+            xbmcvfs.copy(os.path.join(__data__, '', 'bulsat.m3u'), os.path.join(__r_path__, '', 'bulsat.m3u'))
+          dbg_msg('Copy Files')
 
-      if __addon__.getSetting('en_custom_cmd') == 'true':
-        __builtin = __addon__.getSetting('builtin_cmd')
-        __script = __addon__.getSetting('script_cmd')
+        if __addon__.getSetting('en_custom_cmd') == 'true':
+          __builtin = __addon__.getSetting('builtin_cmd')
+          __script = __addon__.getSetting('script_cmd')
 
-        if __builtin != '':
-          dbg_msg ('builtin exec %s' % __builtin)
-          update('builtin_exec %s' % __builtin, __ua_os[__addon__.getSetting('dev_id')]['osid'])
-          xbmc.executebuiltin('%s' % __builtin)
+          if __builtin != '':
+            dbg_msg ('builtin exec %s' % __builtin)
+            update('builtin_exec %s' % __builtin, __ua_os[__addon__.getSetting('dev_id')]['osid'])
+            xbmc.executebuiltin('%s' % __builtin)
 
-        if __script != '':
-          dbg_msg ('script exec %s' % __script)
-          update('script_exec %s' % __script, __ua_os[__addon__.getSetting('dev_id')]['osid'])
-          os.system(__script)
+          if __script != '':
+            dbg_msg ('script exec %s' % __script)
+            update('script_exec %s' % __script, __ua_os[__addon__.getSetting('dev_id')]['osid'])
+            os.system(__script)
 
-      if __addon__.getSetting('en_reload_pvr')== 'true':
         dbg_msg('Reload PVR')
         update('reload_pvr', __ua_os[__addon__.getSetting('dev_id')]['osid'])
         xbmc.executebuiltin('XBMC.StopPVRManager')
         xbmc.sleep(1000)
         xbmc.executebuiltin('XBMC.StartPVRManager')
 
-except Exception, e:
-  Notify('Error!', str(e))
-  traceback.print_exc()
-  update('exception', str(e.args[0]), sys.exc_info())
-  pass
+  except Exception, e:
+    Notify('Error!', str(e))
+    traceback.print_exc()
+    update('exception', str(e.args[0]), sys.exc_info())
+    pass
 
-dp.close()
+  dp.close()
