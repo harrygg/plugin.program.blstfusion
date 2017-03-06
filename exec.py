@@ -9,6 +9,7 @@ import xbmcvfs
 import re
 import simplejson as json
 import urllib
+import sqlite3
 from ga import ga
 
 __addon__ = xbmcaddon.Addon()
@@ -22,8 +23,9 @@ __cwd__ = xbmc.translatePath( __addon__.getAddonInfo('path') ).decode('utf-8')
 __profile__ = xbmc.translatePath( __addon__.getAddonInfo('profile') ).decode('utf-8')
 __resource__ = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'lib' ) ).decode('utf-8')
 __icon_msg__ = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'bulsat.png' ) ).decode('utf-8')
-reload_pvr_if_playing = __addon__.getSetting('reload_pvr_if_playing') == 'true'
-
+clean_tvdb = __addon__.getSetting('clean_tvdb') == 'true'
+clean_epgdb = __addon__.getSetting('clean_epgdb') == 'true'
+db_dir = os.path.join(__profile__, "../../Database/").decode('utf-8')
 epg_type = __addon__.getSetting('epg_type')
 if epg_type == '1':
   __map__ = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'map.json' ) ).decode('utf-8')
@@ -84,6 +86,44 @@ def is_player_active():
     pass
   xbmc.log("PVR is not playing!")
   return False    
+
+def delete_tvdb():
+  db_file = os.path.join(db_dir, "TV29.db")
+  if os.path.isfile(db_file):
+    xbmc.log("Trying to manually reset TV DB before restart %s" % db_file)
+    conn = sqlite3.connect(db_file)
+    with conn:
+      cursor = conn.cursor()
+      conn.execute('''DELETE FROM channels;''')
+      xbmc.log('''Executing query: "DELETE FROM channels;"''')
+      conn.execute('''DELETE FROM map_channelgroups_channels;''')
+      xbmc.log('''Executing query: "DELETE FROM map_channelgroups_channels;"''')
+      conn.execute('''DELETE FROM channelgroups;''')
+      xbmc.log('''Executing query: "DELETE FROM channelgroups;"''')
+      conn.execute('''VACUUM;''')
+      xbmc.log('''Executing query: "VACUUM;"''')
+      conn.commit()
+  else:
+    xbmc.log("DB file does nto exist! %s" % db_file)
+
+def delete_epgdb():
+  db_file = os.path.join(db_dir, "Epg11.db")
+  if os.path.isfile(db_file):
+    xbmc.log("Trying to reset EPG DB before restart %s" % db_file)
+    conn = sqlite3.connect(db_file)
+    with conn:
+      cursor = conn.cursor()
+      conn.execute('''DELETE FROM epg;''')
+      xbmc.log('''Executing query: "DELETE FROM epg;"''')
+      conn.execute('''DELETE FROM epgtags;''')
+      xbmc.log('''Executing query: "DELETE FROM epgtags;"''')
+      conn.execute('''DELETE FROM lastepgscan;''')
+      xbmc.log('''Executing query: "DELETE FROM lastepgscan;"''')
+      conn.execute('''VACUUM;''')
+      xbmc.log('''Executing query: "VACUUM;"''')
+      conn.commit()
+  else:
+    xbmc.log("DB file not found! %s" % db_file)
     
 __ua_os = {
   '0' : {'ua' : 'pcweb', 'osid' : 'pcweb'},
@@ -96,11 +136,11 @@ __ua_os = {
 
 
 #########################################################################
-### Run addon only if PVR is not active or reload_pvr_if_playing is True
+### Run addon only if PVR is not active
 #########################################################################
-if is_player_active() and reload_pvr_if_playing == False:
+if is_player_active():
   xbmc.log("PVR is in use. Delaying playlist regeneration with 5 minutes")
-  xbmc.executebuiltin('AlarmClock(%s, RunScript(%s, False), %s, silent)' % (__scriptid__, __scriptid__, 1))
+  xbmc.executebuiltin('AlarmClock(%s, RunScript(%s, False), %s, silent)' % (__scriptid__, __scriptid__, 5))
 else:
   dp = xbmcgui.DialogProgressBG()
   dp.create(heading = __scriptname__)
@@ -201,9 +241,19 @@ else:
 
         dbg_msg('Reload PVR')
         update('reload_pvr', __ua_os[__addon__.getSetting('dev_id')]['osid'])
-        xbmc.executebuiltin('XBMC.StopPVRManager')
-        xbmc.sleep(1000)
-        xbmc.executebuiltin('XBMC.StartPVRManager')
+        ####################################################
+        ###Restart PVR Service to reload channels' streams
+        ####################################################
+        if not is_player_active():
+          xbmc.executebuiltin('XBMC.StopPVRManager')
+          xbmc.sleep(1000)
+          if clean_tvdb:
+            delete_tvdb()
+            xbmc.sleep(1000)
+          if clean_epgdb:
+            delete_epgdb()
+            xbmc.sleep(1000)
+          xbmc.executebuiltin('XBMC.StartPVRManager')
 
   except Exception, e:
     Notify('Error!', str(e))
