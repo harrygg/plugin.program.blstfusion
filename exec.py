@@ -29,8 +29,6 @@ db_dir = os.path.join(__profile__, "../../Database/").decode('utf-8')
 epg_type = __addon__.getSetting('epg_type')
 if epg_type == '1':
   __map__ = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'map.json' ) ).decode('utf-8')
-else:
-  __map__ = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'megamap.json' ) ).decode('utf-8')
 
 __data__ = xbmc.translatePath(os.path.join( __profile__, '', 'dat') ).decode('utf-8')
 __r_path__ = xbmc.translatePath(__addon__.getSetting('w_path')).decode('utf-8')
@@ -75,17 +73,9 @@ def dbg_msg(msg):
 
 def is_player_active():
   try:
-    res = xbmc.executeJSONRPC('{"jsonrpc":"2.0","method":"Player.GetActivePlayers", "id":1}')
-    player_id = json.loads(res)["result"][0]["playerid"]
-    res = xbmc.executeJSONRPC('{"jsonrpc":"2.0","method":"Player.GetItem","params":{"properties":["channeltype","channelnumber"],"playerid":%s},"id":"id1"}' % player_id)
-    item_type = json.loads(res)["result"]["item"]["type"]
-    if item_type == "channel":
-      xbmc.log("PVR is playing!")
-      return True
+    return xbmc.getCondVisibility("Pvr.IsPlayingTv") or xbmc.getCondVisibility("Pvr.IsPlayingRadio")
   except:
-    pass
-  xbmc.log("PVR is not playing!")
-  return False    
+    return False   
 
 def delete_tvdb():
   db_file = os.path.join(db_dir, "TV29.db")
@@ -178,11 +168,6 @@ else:
     _group_name = False
   else:
     _group_name = __scriptid__
-
-  if __addon__.getSetting('ext_epg') == 'true':
-    etx_epg = True
-  else:
-    etx_epg = False
 
   if not __addon__.getSetting('username'):
     Notify('User', 'empty')

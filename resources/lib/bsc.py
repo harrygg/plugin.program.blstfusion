@@ -60,7 +60,7 @@ class dodat():
     self.__DEBUG_EN = dbg
     self.__t = timeout
     self.__BLOCK_SIZE = 16
-    xbmc.log("__URL_LIST: " + base + '/tv/%s/live' % os_id)
+    #xbmc.log("__URL_LIST: " + base + '/tv/%s/live' % os_id)
     self.__URL_LIST = base + '/tv/%s/live' % os_id
     self.__URL_EPG  = base + '/epg/short'
     self.__js = None
