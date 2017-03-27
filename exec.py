@@ -13,7 +13,6 @@ import sqlite3
 from ga import ga
 
 __addon__ = xbmcaddon.Addon()
-__author__ = __addon__.getAddonInfo('author')
 __scriptid__ = __addon__.getAddonInfo('id')
 __scriptname__ = __addon__.getAddonInfo('name')
 __version__ = __addon__.getAddonInfo('version')
@@ -25,13 +24,13 @@ __resource__ = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'lib' ) )
 __icon_msg__ = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'bulsat.png' ) ).decode('utf-8')
 clean_tvdb = __addon__.getSetting('clean_tvdb') == 'true'
 clean_epgdb = __addon__.getSetting('clean_epgdb') == 'true'
-db_dir = os.path.join(__profile__, "../../Database/").decode('utf-8')
+db_dir = os.path.join(__profile__, "../../Database/")
 epg_type = __addon__.getSetting('epg_type')
 __map__ = None
 if epg_type == '1':
   __map__ = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'map.json' ) ).decode('utf-8')
 
-__data__ = xbmc.translatePath(os.path.join( __profile__, '', 'dat') ).decode('utf-8')
+__data__ = xbmc.translatePath(os.path.join( __profile__, '', 'dat') )
 __r_path__ = xbmc.translatePath(__addon__.getSetting('w_path')).decode('utf-8')
 sys.path.insert(0, __resource__)
 
@@ -81,40 +80,34 @@ def is_player_active():
 def delete_tvdb():
   try:
     db_file = os.path.join(db_dir, "TV29.db")
-    if os.path.isfile(db_file):
-      xbmc.log("Trying to manually reset TV DB before restart %s" % db_file)
-      conn = sqlite3.connect(db_file)
-      with conn:
-        xbmc.log('''Executing cleanup queries for tables: channels, map_channelgroups_channels and channelgroups"''')
-        cursor = conn.cursor()
-        conn.execute('''DELETE FROM channels;''')
-        conn.execute('''DELETE FROM map_channelgroups_channels;''')
-        conn.execute('''DELETE FROM channelgroups;''')
-        conn.execute('''VACUUM;''')
-        conn.commit()
-    else:
-      xbmc.log("DB file does nto exist! %s" % db_file)
-  except:
-    xbmc.log("TV database was not reset before reloading")
+    xbmc.log("Trying to manually reset TV DB before restart %s" % db_file)
+    conn = sqlite3.connect(db_file)
+    with conn:
+      xbmc.log("Executing cleanup queries for tables: channels, map_channelgroups_channels and channelgroups")
+      cursor = conn.cursor()
+      cursor.execute('''DELETE FROM channels;''')
+      cursor.execute('''DELETE FROM map_channelgroups_channels;''')
+      cursor.execute('''DELETE FROM channelgroups;''')
+      cursor.execute('''VACUUM;''')
+      conn.commit()
+  except Exception,er:
+    xbmc.log("TV database was not reset before reloading %s" % er)
 
 def delete_epgdb():
   try:
     db_file = os.path.join(db_dir, "Epg11.db")
-    if os.path.isfile(db_file):
-      xbmc.log("Trying to reset EPG DB before restart %s" % db_file)
-      conn = sqlite3.connect(db_file)
-      with conn:
-        xbmc.log('''Executing cleanup queries for tables: epg, epgtags and lastepgscan"''')
-        cursor = conn.cursor()
-        conn.execute('''DELETE FROM epg;''')
-        conn.execute('''DELETE FROM epgtags;''')
-        conn.execute('''DELETE FROM lastepgscan;''')
-        conn.execute('''VACUUM;''')
-        conn.commit()
-    else:
-      xbmc.log("DB file not found! %s" % db_file)
-  except:
-    xbmc.log("EPG database was not reset before reloading")
+    xbmc.log("Trying to reset EPG DB before restart %s" % db_file)
+    conn = sqlite3.connect(db_file)
+    with conn:
+      xbmc.log("Executing cleanup queries for tables: epg, epgtags and lastepgscan")
+      cursor = conn.cursor()
+      cursor.execute('''DELETE FROM epg;''')
+      cursor.execute('''DELETE FROM epgtags;''')
+      cursor.execute('''DELETE FROM lastepgscan;''')
+      cursor.execute('''VACUUM;''')
+      conn.commit()
+  except Exception,er:
+    xbmc.log("EPG database was not reset before reloading %s" % er)
 
 __ua_os = {
   '0' : {'ua' : 'pcweb', 'osid' : 'pcweb'},
