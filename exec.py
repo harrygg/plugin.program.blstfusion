@@ -225,26 +225,30 @@ else:
             update('script_exec %s' % __script, __ua_os[__addon__.getSetting('dev_id')]['osid'])
             os.system(__script)
 
-        dbg_msg('Reload PVR')
-        update('reload_pvr', __ua_os[__addon__.getSetting('dev_id')]['osid'])
-        ####################################################
-        ###Restart PVR Service to reload channels' streams
-        ####################################################
-        if not is_player_active():
-          xbmc.executebuiltin('XBMC.StopPVRManager')
-          xbmc.sleep(1000)
-          if clean_tvdb:
-            delete_tvdb()
-            xbmc.sleep(1000)
-          if clean_epgdb:
-            delete_epgdb()
-            xbmc.sleep(1000)
-          xbmc.executebuiltin('XBMC.StartPVRManager')
-
   except Exception, e:
     Notify('Error!', str(e))
     traceback.print_exc()
     update('exception', str(e.args[0]), sys.exc_info())
     pass
 
+  dbg_msg('Reload PVR')
+  update('reload_pvr', __ua_os[__addon__.getSetting('dev_id')]['osid'])
+  ####################################################
+  ###Restart PVR Service to reload channels' streams
+  ####################################################
+  if not is_player_active():
+    #xbmc.executebuiltin('XBMC.StopPVRManager')
+    xbmc.log("Disabling PVR Manager")
+    xbmc.executeJSONRPC('{"jsonrpc":"2.0","method":"Addons.SetAddonEnabled","params":{"addonid":"pvr.iptvsimple","enabled":false},"id":1}')
+    xbmc.sleep(1000)
+    if clean_tvdb:
+      delete_tvdb()
+      xbmc.sleep(1000)
+    if clean_epgdb:
+      delete_epgdb()
+      xbmc.sleep(1000)
+    #xbmc.executebuiltin('XBMC.StartPVRManager')
+    xbmc.log("Enabling PVR Manager")
+    xbmc.executeJSONRPC('{"jsonrpc":"2.0","method":"Addons.SetAddonEnabled","params":{"addonid":"pvr.iptvsimple","enabled":true},"id":1}')
+          
   dp.close()
