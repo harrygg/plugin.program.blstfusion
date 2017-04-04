@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<<<<<<< HEAD
 <addon id="plugin.program.blstfusion" name="Fusion TV (fork)" version="1.2.4" provider-name="kodi1, forked and supported by kodibg comunity">
   <requires>
     <import addon="xbmc.python" version="2.19.0"/>
