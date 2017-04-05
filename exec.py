@@ -80,10 +80,10 @@ def is_player_active():
 def delete_tvdb():
   try:
     db_file = os.path.join(db_dir, "TV29.db")
-    xbmc.log("Trying to manually reset TV DB before restart %s" % db_file)
+    xbmc.log("Trying to manually reset TV DB before restart %s" % db_file, 2)
     conn = sqlite3.connect(db_file)
     with conn:
-      xbmc.log("Executing cleanup queries for tables: channels, map_channelgroups_channels and channelgroups")
+      xbmc.log("Executing cleanup queries for tables: channels, map_channelgroups_channels and channelgroups", 2)
       cursor = conn.cursor()
       cursor.execute('''DELETE FROM channels;''')
       cursor.execute('''DELETE FROM map_channelgroups_channels;''')
@@ -91,15 +91,15 @@ def delete_tvdb():
       cursor.execute('''VACUUM;''')
       conn.commit()
   except Exception,er:
-    xbmc.log("TV database was not reset before reloading %s" % er)
+    xbmc.log("TV database was not reset before reloading %s" % er, 4)
 
 def delete_epgdb():
   try:
     db_file = os.path.join(db_dir, "Epg11.db")
-    xbmc.log("Trying to reset EPG DB before restart %s" % db_file)
+    xbmc.log("Trying to reset EPG DB before restart %s" % db_file, 2)
     conn = sqlite3.connect(db_file)
     with conn:
-      xbmc.log("Executing cleanup queries for tables: epg, epgtags and lastepgscan")
+      xbmc.log("Executing cleanup queries for tables: epg, epgtags and lastepgscan", 2)
       cursor = conn.cursor()
       cursor.execute('''DELETE FROM epg;''')
       cursor.execute('''DELETE FROM epgtags;''')
@@ -107,7 +107,7 @@ def delete_epgdb():
       cursor.execute('''VACUUM;''')
       conn.commit()
   except Exception,er:
-    xbmc.log("EPG database was not reset before reloading %s" % er)
+    xbmc.log("EPG database was not reset before reloading %s" % er, 4)
 
 __ua_os = {
   '0' : {'ua' : 'pcweb', 'osid' : 'pcweb'},
@@ -230,9 +230,16 @@ else:
   ###Restart PVR Service to reload channels' streams
   ####################################################
   if not is_player_active():
-    #xbmc.executebuiltin('XBMC.StopPVRManager')
-    xbmc.log("Disabling PVR Manager")
-    xbmc.executeJSONRPC('{"jsonrpc":"2.0","method":"Addons.SetAddonEnabled","params":{"addonid":"pvr.iptvsimple","enabled":false},"id":1}')
+    dp.update(0, "Reloading PVR")
+    version = int(xbmc.getInfoLabel("System.BuildVersion" )[0:2])
+    command = '{"jsonrpc":"2.0","method":"Addons.SetAddonEnabled","params":{"addonid":"pvr.iptvsimple","enabled":%s},"id":1}'
+    if version < 17:
+      xbmc.executebuiltin('XBMC.StopPVRManager')
+      dp.update(30, "PVR Manager stopped")
+    else:
+      xbmc.log("%s | Disabling PVR Manager" % __scriptid__, 2)
+      xbmc.executeJSONRPC(command % "false")
+
     xbmc.sleep(1000)
     if clean_tvdb:
       delete_tvdb()
@@ -240,8 +247,13 @@ else:
     if clean_epgdb:
       delete_epgdb()
       xbmc.sleep(1000)
-    #xbmc.executebuiltin('XBMC.StartPVRManager')
-    xbmc.log("Enabling PVR Manager")
-    xbmc.executeJSONRPC('{"jsonrpc":"2.0","method":"Addons.SetAddonEnabled","params":{"addonid":"pvr.iptvsimple","enabled":true},"id":1}')
+    
+    if version < 17:
+      dp.update(60, "PVR Manager started")
+      xbmc.sleep(1000)
+      xbmc.executebuiltin('XBMC.StartPVRManager')
+    else:
+      xbmc.log("%s | Enabling PVR Manager" % __scriptid__, 2)
+      xbmc.executeJSONRPC(command % "true")
           
   dp.close()
