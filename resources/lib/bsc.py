@@ -1,6 +1,8 @@
 # -*- coding: utf8 -*-
-
-import os, time, xbmc
+import io
+import os, 
+import time
+import xbmc
 import base64
 import requests
 import aes as EN
@@ -9,11 +11,15 @@ import gzip
 import xmltv
 import urllib
 import simplejson as json
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 class dodat():
   def __init__(self,
                 login,
                 path,
+                picons_path,
                 cachetime=1,
                 dbg=False,
                 dump_name='',
@@ -54,6 +60,7 @@ class dodat():
                 'pass' : [None,''],
                 }
     self.__path = path
+    self.__picons_path = picons_path
     self.__refresh = int(cachetime * 60 * 60)
     self.__p_data['user'][1] = login['usr']
     self.__log_in['pw'] = login['pass']
@@ -61,7 +68,7 @@ class dodat():
     self.__t = timeout
     self.__BLOCK_SIZE = 16
     #xbmc.log("__URL_LIST: " + base + '/tv/%s/live' % os_id)
-    self.__URL_LIST = base + '/tv/%s/live' % os_id
+    self.__URL_LIST = base + '/tv/full/live'
     self.__URL_EPG  = base + '/epg/short'
     self.__js = None
     self.__app_version = ver
@@ -76,7 +83,7 @@ class dodat():
 
     #xbmc.log("Module request version %s" % requests.__version__)
     self.__s = requests.Session()
-    #self.__s.verify=False
+    self.__s.verify=False
 
     if agent_id != 'pcweb':
       self.__URL_LOGIN = base + '/?auth'
@@ -168,20 +175,19 @@ class dodat():
 
       self.__log_dat(r.request.headers)
       self.__log_dat(r.request.body)
-
+      # Log in was successful
       if r.status_code == requests.codes.ok:
+        xbmc.log(str(r.headers), 2)
         data = r.json()
         if data['Logged'] == 'true':
           self.__log_dat('Login ok')
 
           if self.__cb:
             self.__cb({'pr': 50, 'str': 'Login ok'})
-
-          self.__s.headers.update({'Access-Control-Request-Method': 'POST'})
-          self.__s.headers.update({'Access-Control-Request-Headers': 'ssbulsatapi'})
-
-          r = self.__s.options(self.__URL_LIST, timeout=self.__t,
-                          headers=self.__UA)
+          
+          xbmc.log("r.headers['SSBULSATAPI']=%s" % r.headers['SSBULSATAPI'], 2)
+          self.__s.headers.update({'SSBULSATAPI': r.headers['SSBULSATAPI']})
+          r = self.__s.get(self.__URL_LIST, timeout=self.__t, headers={"User-agent":"okhttp/2.3.0"})
 
           self.__log_dat(r.request.headers)
           self.__log_dat(r.headers)
@@ -190,11 +196,11 @@ class dodat():
           if self.__cb:
             self.__cb({'pr': 70, 'str': 'Fetch data'})
 
-          r = self.__s.post(self.__URL_LIST, timeout=self.__t,
-                      headers=self.__UA)
+          #r = self.__s.post(self.__URL_LIST, timeout=self.__t,
+          #            headers=self.__UA)
 
-          self.__log_dat(r.request.headers)
-          self.__log_dat(r.headers)
+          #self.__log_dat(r.request.headers)
+          #self.__log_dat(r.headers)
           
           if r.status_code == requests.codes.ok:
             self.__char_set = r.headers['content-type'].split('charset=')[1]
@@ -243,9 +249,9 @@ class dodat():
         else:
           raise Exception("LoginFail")
 
-  def __data_fetch(self, f):
+  def __data_fetch(self, forced):
     self.__tv_list = None
-    if os.path.exists(os.path.join(self.__path, '', 'data.dat')) and f is False:
+    if os.path.exists(os.path.join(self.__path, '', 'data.dat')) and not forced:
       self.__restore_data()
       if time.time() - self.__js['ts'] < self.__refresh and self.__js['os_type'] == self.__p_data['os_type'][1]:
         self.__log_dat('Use cache file')
@@ -261,6 +267,12 @@ class dodat():
       self.__js['os_type'] = self.__p_data['os_type'][1]
       self.__log_dat('Base time: %s' % time.ctime(self.__js['ts']))
       self.__store_data()
+
+  def __cyrillic2latin(self, input):
+    symbols = (u"абвгдеёзийклмнопрстуфхъыьэАБВГДЕЁЗИЙКЛМНОПРСТУФХЪЫЬЭ",
+             u"abvgdeezijklmnoprstufh'y'eABVGDEEZIJKLMNOPRSTUFH'Y'E")
+    tr = {ord(a): ord(b) for a, b in zip(*symbols)}
+    return input.translate(tr)
 
   def gen_all(self, force_refresh = False):
     ret = False
@@ -328,9 +340,24 @@ class dodat():
         if self.__gen_jd:
           jdump[ch['epg_name']]=ch['epg_name']
 
+        if not os.path.exists(self.__picons_path):
+          os.makedirs(self.__picons_path)
+
+        if all(ord(char) < 128 for char in ch['title']):
+          piconName=ch['title']
+        else:
+          piconName=self.__cyrillic2latin(ch['title'])
+
+        picon=xbmc.translatePath( os.path.join( self.__picons_path, piconName + '.png'))
+
+        if not os.path.exists(picon):
+          with io.open(picon, 'bw+') as f:
+            f.write(base64.b64decode(ch['logo_selected']))
+
         if self.__epg_type == '0':
           c = {'display-name': [(ch['title'], u'bg')],
           'id': ch['epg_name'],
+          'icon': [{'src': picon.decode("utf-8")}],
           'url': ['https://test.iptv.bulsat.com']}
           
           w.addChannel(c)

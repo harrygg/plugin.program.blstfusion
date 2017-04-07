@@ -22,6 +22,7 @@ __cwd__ = xbmc.translatePath( __addon__.getAddonInfo('path') ).decode('utf-8')
 __profile__ = xbmc.translatePath( __addon__.getAddonInfo('profile') ).decode('utf-8')
 __resource__ = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'lib' ) ).decode('utf-8')
 __icon_msg__ = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'bulsat.png' ) ).decode('utf-8')
+__picons__ = xbmc.translatePath( os.path.join( __profile__, 'resources', 'picons' ) ).decode("utf-8")
 clean_tvdb = __addon__.getSetting('clean_tvdb') == 'true'
 clean_epgdb = __addon__.getSetting('clean_epgdb') == 'true'
 db_dir = os.path.join(__profile__, "../../Database/")
@@ -174,6 +175,7 @@ else:
     import bsc
     b = bsc.dodat(login = {'usr': __addon__.getSetting('username'), 'pass': __addon__.getSetting('password')},
                   path = __data__,
+                  picons_path = __picons__,
                   cachetime = float(__addon__.getSetting('refresh')),
                   dbg = dbg,
                   timeout=float(__addon__.getSetting('timeout')),
